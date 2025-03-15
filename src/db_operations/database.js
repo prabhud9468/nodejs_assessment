@@ -1,13 +1,14 @@
 
 const mongoose = require('mongoose');
 
-// MongoDB Connection in Worker
+// MongoDB Connection For Worker Thread
 mongoose.connect(process.env.MONGO_URL + "/" + process.env.DATABASE).then(async () => {
     console.log('MongoDB connected successfully in Workers Thread!')
 }).catch(err => {
     console.error('Worker MongoDB connection error:', err);
 });
 
+// Importing Database Models
 const {
     Agents,
     Users,
@@ -22,26 +23,14 @@ async function InsertOne(data, res) {
         try {
             // Agents Data
             let agent_data = { name: data["agent"] };
-            // const agent_info = await Agents.findOne(agent_data);
             const agent_info = await Agents.findOneAndUpdate(agent_data,{$set:agent_data},{ upsert: true, new: true });
-            // if (agent_info === null) {
-            //     agent_data = await Agents.findOneAndUpdate(agent_data,{$set:agent_data},{ upsert: true, new: true });
-            // } else {
-            //     agent_data = agent_info;
-            // }
 
             // Account Information
             let account_data = {
                 account_name: data["account_name"],
                 account_type: data["account_type"]
             };
-            // const account_info = await UserAccounts.insertOne(account_data,{ upsert: true, new: true });
             const account_info = await UserAccounts.findOneAndUpdate(account_data,{$set:agent_data},{ upsert: true, new: true });
-            // if (account_info === null) {
-            //     account_data = await UserAccounts.insertOne(account_data);
-            // } else {
-            //     account_data = account_info;
-            // }
 
             // User Information
             let user_data = {
@@ -56,33 +45,15 @@ async function InsertOne(data, res) {
                 gender: data["gender"] === undefined ? null : data["gender"],
                 user_type: data["userType"]
             };
-            // const user_info = await Users.insertOne(user_data,{ upsert: true, new: true });
             const user_info = await Users.findOneAndUpdate(user_data,{$set:user_data},{ upsert: true, new: true });
-            // if (user_info === null) {
-            //     user_data = await Users.insertOne(user_data);
-            // } else {
-            //     user_data = user_info;
-            // }
 
             // Catergor Information
             let category_data = { category_name: data["category_name"] };
-            // const category_info = await LOB.insertOne(category_data,{ upsert: true, new: true });
             const category_info = await LOB.findOneAndUpdate(category_data,{$set:category_data},{ upsert: true, new: true });
-            // if (category_info === null) {
-            //     category_data = await LOB.insertOne(category_data);
-            // } else {
-            //     category_data = category_info;
-            // }
 
             // Company Information
             let company_data = { company_name: data["company_name"] };
-            // const company_info = await PolicyCarrier.insertOne(company_data,{ upsert: true, new: true });
             const company_info = await PolicyCarrier.findOneAndUpdate(company_data,{$set:company_data},{ upsert: true, new: true });
-            // if (company_info === null) {
-            //     company_data = await PolicyCarrier.insertOne(company_data);
-            // } else {
-            //     company_data = company_info;
-            // }
 
             // Policy Information
             let policy_data = {
@@ -100,11 +71,6 @@ async function InsertOne(data, res) {
                 account_id: account_info["_id"]
             };
             await PolicyData.insertOne(policy_data);
-            // if (policy_info === null) {
-            //     policy_data = await PolicyData.insertOne(policy_data);
-            // } else {
-            //     policy_data = policy_data;
-            // }
             resolve({ status: true, message: "Data uploaded successfully" });
         } catch (e) {
             reject({ status: false, message: e.message });
