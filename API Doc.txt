@@ -1,5 +1,3 @@
-# nodejs_assessment
-
 1) Policies Search Based on Username
 API Endpoint: /search_policies
 Method: POST

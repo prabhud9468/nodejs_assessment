@@ -1,0 +1,7 @@
+PORT=9481
+NODE_ENV=dev
+MONGO_URL=mongodb+srv://node_application:ilOerk3rfTl8ZT95@practice.ejxn8.mongodb.net
+DATABASE=insuredmine_assessment
+DATABASE_URENAME=node_application
+DATABASE_PASSWORD=ilOerk3rfTl8ZT95
+
