@@ -45,17 +45,6 @@ async function SearchUserPolycies(req, res) {
                     from: "policy_datas",
                     localField: "userId",
                     foreignField: "user_id",
-                    // let: { userGroupId: '$access' },
-                    // pipeline: [
-                    //     {
-                    //         $lookup: {
-                    //             from: 'access_targets',
-                    //             localField: 'userGroupId.accessTargetId',
-                    //             foreignField: '_id',
-                    //             as: 'access_targets_out',
-                    //         },
-                    //     },
-                    // ],
                     as: "user_policies"
                 }
             },
